@@ -33,13 +33,13 @@ save_kable <- function(x, file,
                        bs_theme = "simplex", self_contained = TRUE,
                        extra_dependencies = NULL, ...,
                        latex_header_includes = NULL, keep_tex = FALSE,
-                       density = 300) {
+                       density = 300, matte=FALSE) {
 
   if (!is.null(attr(x, "format"))) {
 
     # latex
     if (attr(x, "format") == "latex") {
-      return(save_kable_latex(x, file, latex_header_includes, keep_tex, density))
+      return(save_kable_latex(x, file, latex_header_includes, keep_tex, density, matte))
 
       # markdown
     } else if (attr(x, "format") == "pipe") {
@@ -222,7 +222,7 @@ remove_html_doc <- function(x){
   writeLines(out, x)
 }
 
-save_kable_latex <- function(x, file, latex_header_includes, keep_tex, density) {
+save_kable_latex <- function(x, file, latex_header_includes, keep_tex, density, matte) {
 
   # if file extension is .tex, write to file, return the table as an
   # invisible string, and do nothing else
@@ -277,7 +277,7 @@ save_kable_latex <- function(x, file, latex_header_includes, keep_tex, density) 
            "possible that you didn't have ghostscript installed.")
     }
     unlink(paste0(file_no_ext, ".pdf"))
-    table_img <- magick::image_convert(table_img_pdf,
+    table_img <- magick::image_convert(table_img_pdf, matte=matte,
                                        tools::file_ext(file))
     table_img_info <- magick::image_info(table_img)
     magick::image_write(table_img,
