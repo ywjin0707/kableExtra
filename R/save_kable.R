@@ -254,9 +254,7 @@ save_kable_latex <- function(x, file, latex_header_includes, keep_tex, density, 
   owd <- setwd(dirname(temp_tex_file))
 
   #if (!requireNamespace("tinytex", quietly = TRUE)) {
-    system(paste0("xelatex -interaction=batchmode ",
-                  gsub(pattern = " ", replacement = "\\ ",
-                       temp_tex_file, fixed = TRUE)))
+    system(paste0('xelatex -interaction=batchmode "', temp_tex_file, '"'))
   #} else {
   #  tinytex::xelatex(gsub(pattern = " ", replacement = "\\ ",
   #                        temp_tex_file, fixed = TRUE))
